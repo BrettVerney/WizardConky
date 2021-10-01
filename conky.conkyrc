@@ -1,0 +1,106 @@
+conky.config = {
+
+--WINDOW & BORDERS SETTINGS
+own_window_colour = 'black',
+own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+own_window_transparent = yes,
+own_window_type = 'override',
+own_window_argb_visual = true,
+own_window = true,
+maximum_width = 330,
+alignment = 'middle_right',
+background = yes,
+border_width = 1,
+double_buffer = true,
+draw_borders = no,
+draw_graph_borders = true,
+draw_outline = no,
+draw_shades = no,
+gap_x = 25,
+gap_y = 15,
+use_spacer = right,
+stippled_borders = 2,
+
+--FONT & COLOR SETTINGS
+default_color = 'cornflowerblue',   --light blue
+color1 = '#FFA500',                  --orange
+color2 = '#0077ff',                 --dark blue
+
+uppercase = no,
+use_xft = true,
+xftalpha = 0.8,
+font  = 'Bitstream Vera Sans Mono:size=9',
+
+--MISC SETTINGS
+cpu_avg_samples = 2,
+max_port_monitor_connections = 64,
+max_user_text = 16384,
+net_avg_samples = 2,
+no_buffers = true,
+out_to_console = no,
+update_interval = 2,
+if_up_strictness = address,
+short_units = true,
+};
+
+conky.text = [[
+
+
+${image ~/.config/conky/manjaro.png -p 135,20 -s 70x70}
+
+${color1}System
+${color2} OS:${alignr}${color}${execi 5 lsb_release -a | grep Description | awk '{print $2}'}
+${color2} Release:${alignr}${color}${execi 5 lsb_release -r | awk '{print $2}'}
+${color2} Codename:${alignr}${color}${execi 5 lsb_release -c | awk '{print $2}'}
+${color2} Kernel:${alignr}${color}${execi 5 uname -r}
+${color2} Uptime:${alignr}${color}$uptime
+
+${color1}CPU
+${color2} Current Usage: ${color}${cpu}%${alignr}${color2}${cpubar 5,180}
+${color2} ${cpugraph 0 32,326 104E8B 0077ff}
+${color2} Name ${alignc} ${color2}           PID ${alignr} ${color2} CPU %
+${color} ${top name 1}${alignc}${color}   ${top pid 1}${alignr}${color}${top cpu 1}
+${color} ${top name 2}${alignc}${color}   ${top pid 2}${alignr}${color}${top cpu 2}
+${color} ${top name 3}${alignc}${color}   ${top pid 3}${alignr}${color}${top cpu 3}
+
+${color1}Memory
+${color2} Current Usage: ${color}${memperc}%${alignr}${color2}${membar 5,180}
+${color2} ${memgraph 0 32,326 104E8B 0077ff}
+${color2} Name ${alignc}${color2}           PID ${alignr} ${color2} Mem %
+${color} ${top_mem name 1}${alignc}${color}   ${top_mem pid 1}${alignr}${color} ${top_mem mem 1}
+${color} ${top_mem name 2}${alignc}${color}   ${top_mem pid 2}${alignr}${color} ${top_mem mem 2}
+${color} ${top_mem name 3}${alignc}${color}   ${top_mem pid 3}${alignr}${color} ${top_mem mem 3}
+
+${color1}Storage
+${color2} Device       Used       Size  ${alignr} Usage
+${color} root       ${fs_used /}      ${fs_size /}${alignr}${fs_used_perc /}% ${fs_bar 5,70 /}
+${color} swap          ${swap}     ${swapmax}${alignr}$swapperc% ${swapbar 5,70}
+
+${color1}Network
+${if_up wlp58s0}${color2} WAN IP: ${alignr} ${color} ${execi 10 curl checkip.amazonaws.com}
+${color2} LAN IP:${alignr}${color}${execi 10 nmcli device show wlp58s0 | grep IP4.ADDRESS | awk '{print $2}'}
+${color2} GATEWAY:${alignr}${color}${execi 10 nmcli device show wlp58s0 | grep IP4.GATEWAY | awk '{print $2}'}
+${color2} SSID:${alignr}${color}${execi 10 nmcli device show wlp58s0 | grep GENERAL.CONNECTION | awk '{print $2}'}
+${color2} Signal:${alignr}${color}${execi 10 iw dev wlp58s0 link | grep signal | awk '{print $2,$3}'}
+${color2} Frequency:${alignr}${color}${execi 10 iwlist channel | grep 'Current Frequency' | cut -f2 -d ":"}
+${color2} Channel Width:${alignr}${color}${execi 10 iw dev wlp58s0 link | grep "rx bitrate" | awk '{print $7}'}
+${color2} Rx Data Rate:${alignr}${color}${execi 10 iw dev wlp58s0 link | grep "rx bitrate" | awk '{print $3,$4}'}
+${color2} Tx Data Rate:${alignr}${color}${execi 10 iw dev wlp58s0 link | grep "tx bitrate" | awk '{print $3,$4}'}
+
+${color2} Down Usage:${color} ${downspeed wlp58s0}     ${alignr}${color2}  Up Usage:${color} ${upspeed wlp58s0}
+${color2} ${downspeedgraph wlp58s0 32,155 104E8B 0077ff} ${alignr}${color2}${upspeedgraph wlp58s0 32,155 104E8B 0077ff}
+${else}${if_up enp0s20f0u1}${color2}WAN IP:${alignr}${color}${execi 10 curl checkip.amazonaws.com}
+${color2} LAN IP:${alignr}${color}${execi 10 nmcli device show enp0s20f0u1 | grep IP4.ADDRESS | awk '{print $2}'}
+${color2} GATEWAY:${alignr}${color}${execi 10 nmcli device show enp0s20f0u1 | grep IP4.GATEWAY | awk '{print $2}'}
+minimum_size = 330 10,
+${color2} Down Usage:${color} ${downspeed enp0s20f0u1}     ${alignr}${color2}  Up Usage:${color} ${upspeed enp0s20f0u1}
+${color2} ${downspeedgraph enp0s20f0u1 32,155 104E8B 0077ff} ${alignr}${color2}${upspeedgraph enp0s20f0u1 32,155 104E8B 0077ff}
+${else}${color2} ${alignc}-- No Network Connectivity --
+${endif}
+${endif}
+${color1}Battery
+${color2} State:${alignr}${color}${execi 10 upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep state | awk '{print $2}'}
+${color2} Battery at: ${color}${battery_percent}%${alignr}${color2}${battery_bar 5,182 BAT0}
+${color2} Time Remaining:${alignr}${color}${battery_time}
+${color2} Capacity:${alignr}${color}${execi 10 acpi -V | grep "design capacity" | awk '{print $5,$6}' | cut -f1 -d ","}
+]];
