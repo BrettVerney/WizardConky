@@ -30,7 +30,7 @@ Depending on what OS you are running...
 **Create a a script to run Conky at boot:**<br>
 ```echo -e '#!/bin/bash \n sleep 10 && conky -d -c ~/.config/conky/conky.conkyrc &' >> conky_start.sh```<br>
 
-It's up to you to figure out how to trigger the script at boot. This is dependent on your OS and/or desktop environment.
+It's up to you to figure out how to trigger the ***conky_start.sh*** script at boot. This is dependent on your OS and/or desktop environment.
 
 
 ## Screenshots
