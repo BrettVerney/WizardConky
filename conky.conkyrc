@@ -46,7 +46,7 @@ short_units = true,
 conky.text = [[
 
 
-${image ~/.config/conky/manjaro.png -p 135,20 -s 70x70}
+${image ~/.config/conky/icon.png -p 135,20 -s 70x70}
 
 ${color1}System
 ${color2} OS:${alignr}${color}${execi 5 lsb_release -a | grep Description | awk '{print $2}'}
