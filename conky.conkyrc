@@ -73,7 +73,7 @@ ${color} ${top_mem name 3}${alignc}${color}   ${top_mem pid 3}${alignr}${color} 
 
 ${color1}Storage
 ${color2} Device       Used       Size  ${alignr} Usage
-${color} root       ${fs_used /}      ${fs_size /}${alignr}${fs_used_perc /}% ${fs_bar 5,70 /}
+${color} root          ${fs_used /}      ${fs_size /}${alignr}${fs_used_perc /}% ${fs_bar 5,70 /}
 ${color} swap          ${swap}     ${swapmax}${alignr}$swapperc% ${swapbar 5,70}
 
 ${color1}Network
